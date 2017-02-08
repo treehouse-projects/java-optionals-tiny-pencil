@@ -38,17 +38,21 @@ public class Party {
     }
   }
 
-  public Optional<Sheet> getWinner() {
+  public String getWinner() {
     return sheets.stream()
             .filter(sheet -> sheet.getRemainingHoleCount() < Sheet.PAR.length)
-            .min(Comparator.comparing(Sheet::getScore));
+            .min(Comparator.comparing(Sheet::getScore))
+            .map(Sheet::getName)
+            .orElse("No winner yet!");
   }
 
 
-  public Optional<Sheet> getAdjustedWinner() {
+  public String getAdjustedWinner() {
     return sheets.stream()
             .filter(sheet -> sheet.getRemainingHoleCount() < Sheet.PAR.length)
-            .min(Comparator.comparing(Sheet::getAdjustedScore));
+            .min(Comparator.comparing(Sheet::getAdjustedScore))
+            .map(Sheet::getName)
+            .orElse("No winner currently");
   }
 
   public List<Sheet> ranked() {
