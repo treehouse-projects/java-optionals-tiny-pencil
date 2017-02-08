@@ -16,11 +16,11 @@ public class Party {
             .collect(toList());
   }
 
-  // FIXME:  ARRRRGGGGGGGHHHHHH OPTIONAL?   WHYY??!!!!!
-  public Optional<Sheet> getSheetFor(String name) {
+  public Sheet getSheetFor(String name) {
     return sheets.stream()
             .filter(sheet -> sheet.getName().equalsIgnoreCase(name))
-            .findFirst();
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Couldn't find sheet for " + name));
 
   }
 
@@ -29,13 +29,7 @@ public class Party {
   }
 
   public void takeScore(String name, int hole, int score) {
-    Optional<Sheet> sheet = getSheetFor(name);
-    // FIXME:  HOW IS THIS NOT JUST A NULL CHECK?!!!! OPTIONALS MAKE ME FACEPALM
-    if (sheet.isPresent()) {
-      sheet.get().setScoreForHole(hole, score);
-    } else {
-      throw new IllegalArgumentException("Couldn't find sheet for " + name);
-    }
+    getSheetFor(name).setScoreForHole(hole, score);
   }
 
   public String getWinner() {
